@@ -156,7 +156,12 @@ namespace HT16K33_Alnum4 {
     function writeDisplay() {
         let buffer = pins.createBuffer(9);
         buffer[0] = 0x00; // start at address 00
-        for (let i = 0; i < 4; i++) {
+        for (let i = 2; i < 4; i++) {
+            let p = i ^ 2;  //new mapped position
+            buffer[(p << 1) | 1] = displaybuffer[i] & 0xFF;
+            buffer[(p << 1) + 2] = displaybuffer[i] >> 8;
+        }
+        for (let i = 1; i < 3; i++) {
             let p = i ^ 2;  //new mapped position
             buffer[(p << 1) | 1] = displaybuffer[i] & 0xFF;
             buffer[(p << 1) + 2] = displaybuffer[i] >> 8;
